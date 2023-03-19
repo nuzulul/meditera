@@ -122,6 +122,36 @@ routes: [
     },
   },
   {
+    path: '/record/',
+    url: 'record.html',
+    on: {
+      pageAfterIn: function test (e, page) {
+        fpagerecord();
+      },
+    },
+    beforeEnter: function ({ resolve, reject }) {
+      function fperiksakesiapan({ resolve, reject })
+      {resolve();return;
+          if (typeof dashboarddata === 'undefined' || dashboarddata === null) {
+            // variable is undefined or null
+            setTimeout(function(){ fperiksakesiapan({ resolve, reject }); }, 1000);
+            return;
+          }
+            let data = JSON.parse(dashboarddata.user.usermydata)
+            if (data.admin)
+            {
+                resolve();
+            }
+            else
+            {
+                app.dialog.alert('Tidak punya izin', 'Status')
+                reject();
+            }
+      }
+      fperiksakesiapan({ resolve, reject })
+    },
+  },
+  {
     path: '(.*)',
     url: '404.html',
   },
@@ -1275,6 +1305,10 @@ function fmediterafitur()
     window.mediterafiturdata = data;
     fopenscanner(data);
   });
+
+  $$('.meditera-fitur-item-record').on('click', function (e) {
+    app.views.main.router.navigate('/record/');
+  });
 }
 
 function fopenscanner()
@@ -1284,7 +1318,8 @@ function fopenscanner()
   para.innerHTML = '<div style="background: rgba(0, 0, 0, 0.8);position: fixed;z-index: 1000000000000000;align-items: center;justify-content: center;display: flex;bottom: 0;left: 0;right: 0;top: 0;"><div id="reader" src="" style="display: block;margin: auto;height: 90vh;width: 90vw;object-fit: contain;background-image:none;"></div></div>';
   
   para.addEventListener("click",()=>{
-    para.remove(); 
+    para.remove();
+    fstopscanner(); 
   })
 
   document.body.appendChild(para);
@@ -1292,6 +1327,15 @@ function fopenscanner()
   window.html5QrCode = new Html5Qrcode("reader");
   const config = { fps: 10, qrbox: { width: 250, height: 250 } };
   html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+}
+
+function fstopscanner()
+{
+  html5QrCode.stop().then((ignore) => {
+    // QR Code scanning is stopped.
+  }).catch((err) => {
+    // Stop failed, handle it.
+  });
 }
 
 function qrCodeSuccessCallback(decodedText, decodedResult) {
@@ -1376,6 +1420,16 @@ function fbukafitur(fitur,content)
 function fbukafiturkalibrasi(content)
 {
   var data = content;
+  var arr = JSON.parse(data[4]);
+  if (arr.length > 0)
+  {
+      var terakhir = arr[arr.length-1].tanggal;
+      var date = new Intl.DateTimeFormat("id-ID", { hour12:false,dateStyle: "short" , timeStyle: "short",  timeZone: "Asia/Jakarta"}).format(new Date(terakhir));date = date.split(' ');date = date[0];
+  }
+  else
+  {
+      var date = '-';
+  }
   var dialog = app.dialog.create({
     title: 'Kalibrasi',
     content:''////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1387,6 +1441,7 @@ function fbukafiturkalibrasi(content)
       //+'          <tr><td>Uid</td><td>'+safe(data[1])+'</td></tr>'
       +'          <tr><td>Kode</td><td>'+safe(data[2])+'</td></tr>'
       +'          <tr><td>Nama</td><td>'+safe(data[3])+'</td></tr>'
+      +'          <tr><td>Terakhir</td><td>'+date+'</td></tr>'
       //+'          <tr><td>Kalibrasi</td><td>'+safe(data[4])+'</td></tr>'
       //+'          <tr><td>Status</td><td>'+safe(data[5])+'</td></tr>'
       //+'          <tr><td>Kondisi</td><td>'+safe(data[6])+'</td></tr>'
@@ -1479,6 +1534,17 @@ function fkalibrasisekarang(data)
 function fbukafiturstatus(content)
 {
   var data = content;
+  var arr = JSON.parse(data[5]);
+  if (arr.length > 0)
+  {
+      var terakhir = arr[arr.length-1].tanggal;
+      var status = arr[arr.length-1].status;
+      var date = new Intl.DateTimeFormat("id-ID", { hour12:false,dateStyle: "short" , timeStyle: "short",  timeZone: "Asia/Jakarta"}).format(new Date(terakhir));date = date.split(' ');date = date[0];
+  }
+  else
+  {
+      var date = '-';
+  }
   var dialog = app.dialog.create({
     title: 'Status',
     content:''////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1490,6 +1556,7 @@ function fbukafiturstatus(content)
       //+'          <tr><td>Uid</td><td>'+safe(data[1])+'</td></tr>'
       +'          <tr><td>Kode</td><td>'+safe(data[2])+'</td></tr>'
       +'          <tr><td>Nama</td><td>'+safe(data[3])+'</td></tr>'
+      +'          <tr><td>Status</td><td>'+safe(status)+' tgl '+date+'</td></tr>'
       //+'          <tr><td>Kalibrasi</td><td>'+safe(data[4])+'</td></tr>'
       //+'          <tr><td>Status</td><td>'+safe(data[5])+'</td></tr>'
       //+'          <tr><td>Kondisi</td><td>'+safe(data[6])+'</td></tr>'
@@ -1606,6 +1673,17 @@ function fupdatestatus(data,status)
 function fbukafiturkondisi(content)
 {
   var data = content;
+  var arr = JSON.parse(data[6]);
+  if (arr.length > 0)
+  {
+      var terakhir = arr[arr.length-1].tanggal;
+      var kondisi = arr[arr.length-1].kondisi;
+      var date = new Intl.DateTimeFormat("id-ID", { hour12:false,dateStyle: "short" , timeStyle: "short",  timeZone: "Asia/Jakarta"}).format(new Date(terakhir));date = date.split(' ');date = date[0];
+  }
+  else
+  {
+      var date = '-';
+  }
   var dialog = app.dialog.create({
     title: 'Kondisi',
     content:''////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1617,6 +1695,7 @@ function fbukafiturkondisi(content)
       //+'          <tr><td>Uid</td><td>'+safe(data[1])+'</td></tr>'
       +'          <tr><td>Kode</td><td>'+safe(data[2])+'</td></tr>'
       +'          <tr><td>Nama</td><td>'+safe(data[3])+'</td></tr>'
+      +'          <tr><td>Kondisi</td><td>'+safe(kondisi)+' tgl '+date+'</td></tr>'
       //+'          <tr><td>Kalibrasi</td><td>'+safe(data[4])+'</td></tr>'
       //+'          <tr><td>Status</td><td>'+safe(data[5])+'</td></tr>'
       //+'          <tr><td>Kondisi</td><td>'+safe(data[6])+'</td></tr>'
@@ -1717,4 +1796,180 @@ function fupdatekondisi(data,kondisi)
       },
   });
 }
+
+
+
 ///////fmediterafitur()/////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+function fpagerecord()
+{
+  if (typeof mediteraperangkatdata === 'undefined' || mediteraperangkatdata === null)
+  {
+      let mypreloader = app.dialog.preloader();
+      app.request({
+        url: apidataurl,
+        method: 'POST',
+        cache: false,
+        data : { password:'passwordtest', command: 'getperangkatdata'}, 
+        success: function (data, status, xhr)
+          {
+            mypreloader.close();
+            var status = JSON.parse(data).status;
+            var content = JSON.parse(data).data;
+            if (status == "success")
+            {
+              //console.log(content);
+              window.mediteraperangkatdata = content;
+              fpagerecordrun(content);
+            }
+            else if (status == "failed")
+            {
+              //console.log("failed");
+              app.dialog.alert(content,'Terjadi Kesalahan');
+            }
+            else
+            {
+              //console.log("failed");
+              //app.dialog.alert(content,'Terjadi Kesalahan');
+            }
+          },
+        error: function (xhr, status, message)
+          {
+            //console.log(message);
+            mypreloader.close();
+            app.dialog.alert("Server sedang sibuk",'Terjadi Kesalahan');
+          },
+      })
+  }
+  else
+  {
+    fpagerecordrun(mediteraperangkatdata);
+  }
+
+  $$('.meditera-recordrefresh').on('click', function () {
+    mediteraperangkatdata = null
+    fpagerecord()
+  })
+}
+
+function fpagerecordrun(content)
+{
+  var data = '<div class="data-table data-table-collapsible data-table-init"><table><thead><tr><th>No</th><th>Kode</th><th>Nama</th><th>Kalibrasi</th><th>Status</th><th>Kondisi</th><th></th></tr></thead><tbody>';
+  var nomor = 0;
+  for (i=content.length-1;i>0;i--)
+  {
+      nomor++;
+      let kalibrasi;
+      let status;
+      let kondisi
+      let arr
+      let terakhir
+      let date
+
+      arr = JSON.parse(content[i][4]);
+      if (arr.length > 0)
+      {
+          terakhir = arr[arr.length-1].tanggal;
+          date = new Intl.DateTimeFormat("id-ID", { hour12:false,dateStyle: "short" , timeStyle: "short",  timeZone: "Asia/Jakarta"}).format(new Date(terakhir));date = date.split(' ');date = date[0];
+      }
+      else
+      {
+          date = '-';
+      }
+      //kalibrasi = 'terakhir tgl'+date;
+      kalibrasi = date;
+
+      arr = JSON.parse(content[i][5]);
+      if (arr.length > 0)
+      {
+          terakhir = arr[arr.length-1].tanggal;
+          status = arr[arr.length-1].status;
+          date = new Intl.DateTimeFormat("id-ID", { hour12:false,dateStyle: "short" , timeStyle: "short",  timeZone: "Asia/Jakarta"}).format(new Date(terakhir));date = date.split(' ');date = date[0];
+      }
+      else
+      {
+          date = '-';
+          status = '-';
+      }
+      //status = status+' tgl '+date
+
+      arr = JSON.parse(content[i][6]);
+      if (arr.length > 0)
+      {
+          terakhir = arr[arr.length-1].tanggal;
+          kondisi = arr[arr.length-1].kondisi;
+          date = new Intl.DateTimeFormat("id-ID", { hour12:false,dateStyle: "short" , timeStyle: "short",  timeZone: "Asia/Jakarta"}).format(new Date(terakhir));date = date.split(' ');date = date[0];
+      }
+      else
+      {
+          date = '-';
+          kondisi = '-';
+      }
+      //kondisi = kondisi+' tgl '+date
+
+      data += '<tr class="meditera-record-item-'+safe(content[i][1])+'"><td data-collapsible-title="No">'+nomor+'</td><td data-collapsible-title="Kode">'+safe(content[i][2])+'</td><td data-collapsible-title="Nama">'+safe(content[i][3])+'</td><td data-collapsible-title="Kalibrasi">'+kalibrasi+'</td><td data-collapsible-title="Status">'+status+'</td><td data-collapsible-title="Kondisi">'+kondisi+'</td><td><a class="button button-fill meditera-recordaction display-none" data-user="'+btoa(JSON.stringify(content[i]))+'">Detail</a></td></tr>';
+  }
+  data += '</tbody></table></div>';
+  $$('.meditera-record').html(data);
+
+  $$('.meditera-record a.meditera-recordaction').on('click', function (e) {
+        
+        //app.dialog.confirm('Pembuatan e-KTA memerlukan waktu 2-4 menit.', 'Pemberitahuan', function (){fbuatekta();})
+        var base64 = this.attributes["data-user"].value;
+        fpagerecorddetail(base64)
+  });
+}
+
+function fpagerecorddetail(base64)
+{
+  var data = atob(base64);data = JSON.parse(data);
+  var dialog = app.dialog.create({
+    title: 'Data Perangkat',
+    content:''////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      +'<div style="width:100%;height:50vh;overflow:auto;">'
+      +'  <div style="display:flex;flex-direction:column;align-items:center;justify-content: center;">'
+      +'      <img class="imgdetail" src="" style="width:150px;height:150px;margin: 10px 10px;border-radius: 50%;object-fit: cover;">'
+      +'      <p style="font-weight:bold;"></p>'
+      +'      <div class="data-table"><table><tbody>'
+      +'          <tr><td>Uid</td><td>'+safe(data[1])+'</td></tr>'
+      +'          <tr><td>Kode</td><td>'+safe(data[2])+'</td></tr>'
+      +'          <tr><td>Nama</td><td>'+safe(data[3])+'</td></tr>'
+      //+'          <tr><td>Kalibrasi</td><td>'+safe(data[4])+'</td></tr>'
+      //+'          <tr><td>Status</td><td>'+safe(data[5])+'</td></tr>'
+      //+'          <tr><td>Kondisi</td><td>'+safe(data[6])+'</td></tr>'
+      //+'          <tr><td>Photo</td><td><a href="#">'+safe(data[7])+'</a></td></tr>'
+      +'          <tr><td>QR</td><td><a class="kodeqr" href="#">Kode QR</a></td></tr>'
+      +'      </tbody></table></div>'
+      +'  </div>'
+      +'</div>',//////////////////////////////////////////////////////////////////////////////////////////////////
+    closeByBackdropClick: false,
+    destroyOnClose: true,
+    verticalButtons: true,
+    on: {
+      opened: function () {
+        //console.log('Dialog opened')
+        let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
+        $$('.imgdetail').attr('src',src);
+        let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
+        $$('.kodeqr').on('click', function (e) {
+          myimage(srcqr);
+        });
+      }
+    },
+    buttons: [
+      {
+        text: 'Tutup',
+        close:true,
+        color: 'gray',
+        onClick: function(dialog, e)
+          {
+
+          }
+      },
+    ]
+  });
+  dialog.open();
+}
+////////////////////////////////////////////////////////////////////////////////////////
