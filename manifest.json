@@ -22,12 +22,6 @@
           "purpose": "any"
       }
   ],
-  "shortcuts": [
-    {
-      "name": "Aktivitas",
-      "url": "/#page/aktivitas/"
-    }  
-  ],
   "capture_links": "existing-client-navigate",
   "url_handlers": [
     {

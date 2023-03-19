@@ -428,6 +428,10 @@ function finstallload()
       });
   tesinstall();
   console.log('isStandalone = '+isStandalone());
+  if (!isStandalone())
+  {
+    $$('#overlay-welcome').css('display','flex');
+  }
 }
 
 (async() => {
