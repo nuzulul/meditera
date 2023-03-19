@@ -1,0 +1,55 @@
+{
+  "id": "Meditera",
+  "background_color": "#ffffff",
+  "description": "Meditera Tracker",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Meditera",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Meditera",
+  "start_url": "/",
+  "theme_color": "#f33521",
+  "categories": [
+    "social"
+  ],
+  "screenshots": [],
+  "icons": [
+      {
+          "src": "/icon512.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any"
+      }
+  ],
+  "shortcuts": [
+    {
+      "name": "Aktivitas",
+      "url": "/#page/aktivitas/"
+    }  
+  ],
+  "capture_links": "existing-client-navigate",
+  "url_handlers": [
+    {
+      "origin": "https://mediteraapp.netlify.app"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+meditera",
+      "url": "/?meditera=%s"
+    }
+  ],
+  "intent_filters": [
+    {
+      "scope_url_scheme": "https",
+      "scope_url_host": "mediteraapp.netlify.app",
+      "scope_url_path": "/"
+    }
+  ],
+  "related_applications": [{
+    "platform": "webapp",
+    "url": "https://mediteraapp.netlify.app/manifest.json"
+  }],
+  "lang": "id"
+}

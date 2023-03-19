@@ -1,0 +1,452 @@
+<!-- Meditera by nuzulul version 1.0.0 -->
+<!DOCTYPE html>
+<html lang="id" class="notranslate" translate="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#f00">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' data: blob:;object-src 'none';script-src 'sha256-iN7wpJdxHlpujRppkOA8N0+Mzp0ZqZr3lCtxM00Y63c=' 'sha256-amGk+L36GwaYQ2m2uPgb3j5qn0VO4auGaYfW+DUwfvg=' 'strict-dynamic' https: 'unsafe-inline';style-src 'unsafe-inline' data:  https://onesignal.com https://unpkg.com/framework7@7.1.2/framework7-bundle.min.css https://unpkg.com/framework7-icons@5.0.5/css/framework7-icons.css;base-uri 'none';require-trusted-types-for 'script';trusted-types dompurify goog#html mediteraworker mediteradompurify default">
+  <meta name="google" content="notranslate">
+  <title>Meditera</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="web-app-origin-association" href="/.well-known/web-app-origin-association">
+  <link rel="stylesheet" href="https://unpkg.com/framework7@7.1.2/framework7-bundle.min.css" integrity="sha512-qwJ4PsxVWATskfnOo8ucBpegGIQylOYfMjS0VjcvilbteuS+jfHYtfRUP1w5N0CAtzx4It4dhuagchNQIi8aHQ==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/framework7-icons@5.0.5/css/framework7-icons.css" integrity="sha512-O/PPS1pSMECR87GU69PHkhG99cSyEK39K2F0kiXBGGcVb+EGejnbS8+1iGDufzbsEf3Ehe1yY3+XXET85QM8bA==" crossorigin="anonymous">
+
+  
+  <!--------------------------Style-------------------------------------->
+  <style>
+    :root {
+      --f7-panel-transition-duration: 250ms;
+      --f7-bars-bg-color: #fff;
+      --f7-page-bg-color: #f2f3f8;
+      --f7-navbar-border-color: transparent;
+      --f7-navbar-shadow-image: linear-gradient(to bottom,
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.08) 40%,
+        rgba(0,0,0,0.04) 50%,
+        rgba(0,0,0,0) 90%,
+        rgba(0,0,0,0) 100%
+      );
+
+    }
+    .aurora {
+      --f7-list-item-text-font-size: 13px;
+      --f7-list-item-text-line-height: 18px;
+      --f7-panel-collapsed-width: 44px;
+    }
+    .ios {
+      --f7-panel-collapsed-width: 58px;
+    }
+    .md {
+      --f7-panel-collapsed-width: 60px;
+    }
+    
+    @media (min-width: 1024px) {
+      .panel-open[data-panel="left"] {
+        display: none !important;
+      }
+    }
+    .panel-left.dark {
+      --f7-list-chevron-icon-color: rgba(255,255,255,0.4);
+    }
+    .panel-left .list .icon,
+    .panel-left .treeview .icon {
+      color: #fff;
+    }
+    .panel-left .active-link {
+      background-color: var(--f7-theme-color);
+      --f7-list-link-hover-bg-color: var(--f7-theme-color-tint);
+      --f7-list-link-pressed-bg-color: var(--f7-theme-color-shade);
+    }
+
+    .dashboard-cards {
+      --f7-card-margin-vertical: 0px;
+      --f7-card-margin-horizontal: 0px;
+      --f7-card-box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.1);
+    }
+
+    .product-image {
+      width: 56px;
+      height: 56px;
+      border-radius: 4px;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+    }
+
+    @media (min-width: 768px) {
+      .card-content.scrollable {
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        height: 260px;
+      }
+    }
+
+    .timeline-item-divider {
+      background: var(--f7-theme-color);
+    }
+    .timeline-item-divider:after,
+    .timeline-item-divider:before {
+      width: 2px;
+    }
+
+    @media (min-width: 768px) {
+      .events-col .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .events-col .card-content {
+        flex-shrink: 10;
+        min-height: 0;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+    @media (max-width: 767px) {
+      .events-col {
+        height: auto !important;
+      }
+    }
+
+    .tasks-list {
+      --f7-list-item-title-white-space: normal;
+      --f7-list-item-title-font-weight: 500;
+    }
+    .aurora .tasks-list {
+      --f7-list-item-padding-vertical: 8px;
+      --f7-badge-size: 14px;
+    }
+    .tasks-list .item-media {
+      width: 4px;
+      min-width: 0 !important;
+      margin-right: 5px;
+    }
+    .tasks-list .category-icon {
+      height: 24px;
+      width: 4px;
+      border-radius: 2px;
+      background: var(--f7-theme-color);
+    }
+    
+    img {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='1200' height='630' viewBox='0 0 1200 630' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='1200' height='630' fill='%23DFE5EC' fill-opacity='0.5'/%3e%3cpath d='M760 175H440C428.94 175 420 183.94 420 195V435C420 446.039 428.94 455 440 455H760C771.06 455 780 446.04 780 435V195C780 183.961 771.06 175 760 175V175ZM664.999 245.003C678.799 245.003 689.999 256.203 689.999 270.003C689.999 283.803 678.799 295.002 664.999 295.002C651.199 295.002 639.999 283.803 639.999 270.003C639.999 256.203 651.199 245.003 664.999 245.003ZM479.998 395.007L546.278 242.627L621.657 364.666L686.277 332.565L719.997 395.006H479.999L479.998 395.007Z' fill='%23ACBCCD' fill-opacity='0.5'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    }
+
+    #my-aktivasi-screen .list .item-after
+    {
+      margin-left:inherit;
+    }
+
+    :root {
+      --f7-theme-color: #f00;
+      --f7-theme-color-shade: #d60000;
+      --f7-theme-color-tint: #ff2929;
+      --f7-theme-color-rgb: 255, 0, 0;
+    }
+
+  </style>
+</head>
+<body class="color-theme-red">
+  <div id="app">
+    <div class="panel panel-left panel-reveal panel-init dark" data-visible-breakpoint="1024" data-collapsed-breakpoint="1">
+      <div class="view">
+        <div class="page">
+          <div class="list">
+            <ul>
+              <li>
+                <a href="/" class="item-content item-link panel-close meditera-menu">
+                  <div class="item-media">
+                    <i class="icon f7-icons">square_grid_2x2_fill</i>
+                  </div>
+                  <div class="item-inner">
+                    <div class="item-title">Beranda</div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="list meditera-adminmenu">
+            <ul>
+              <li>
+                <a href="/admin/" class="item-content item-link panel-close meditera-menu">
+                  <div class="item-media">
+                    <i class="icon f7-icons">chart_pie_fill</i>
+                  </div>
+                  <div class="item-inner">
+                    <div class="item-title">Admin</div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>          
+          
+        </div>
+      </div>
+    </div>
+    <div class="view view-main view-init">
+      <div class="page">
+        <div class="navbar">
+          <div class="navbar-bg"></div>
+          <div class="navbar-inner">
+            <div class="left">
+              <a class="link panel-open icon-only" data-panel="left">
+                <i class="icon f7-icons">bars</i>
+              </a>
+            </div>
+            <div class="title">Beranda</div>
+            <div class="right">
+              <a class="link popover-open" data-popover=".profile-popover">
+                <span class="margin-right-half"></span>
+                <img src="avatar.png" class="avatar meditera-avatar"><span class="badge color-blue meditera-avatar-badge" style="left:-8px;bottom:-5px;display:none;"><i class="icon f7-icons" style="font-size:12px;">checkmark_seal</i></span>
+              </a>
+            </div>
+            <div class="title-large">
+              <div class="title-large-text display-flex align-items-center">
+                <i class="icon f7-icons margin-right-half" style="font-size: 24px">square_grid_2x2_fill</i>
+                <span>Beranda</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="popover profile-popover">
+          <div class="popover-inner">
+            <h3 class="text-align-center meditera-currentusernama">User</h3>
+            <div class="list no-hairlines no-hairlines-between">
+              <ul>
+                <li>
+                  <a href="#" class="item-link item-content link popover-close meditera-install display-none" data-popover=".profile-popover">
+                    <div class="item-media">
+                      <i class="icon f7-icons">tray_arrow_down_fill</i>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title">Install</div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" target="_blank" class="item-link item-content link popover-close meditera-bukaapp display-none" data-popover=".profile-popover">
+                    <div class="item-media">
+                      <i class="icon f7-icons">app</i>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title">Buka App</div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" target="_blank" class="item-link item-content link popover-close meditera-refresh" data-popover=".profile-popover">
+                    <div class="item-media">
+                      <i class="icon f7-icons">arrow_clockwise_circle</i>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title">Reload</div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="list no-hairlines no-hairlines-between margin-bottom">
+              <ul>
+                <li>
+                  <a href="#" class="item-link item-content my-logout">
+                    <div class="item-media">
+                      <i class="icon f7-icons">exit_fill</i>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title">Logout</div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+        
+        <div class="toolbar toolbar-bottom">
+          <div class="toolbar-inner">
+            2023 &copy; Meditera <a class="meditera-visits" href="#"><i class="icon f7-icons">chart_bar_square_fill</i></a>
+          </div>
+        </div>
+        
+        <div class="page-content hide-toolbar-on-scroll">
+              
+              <div class="row margin-bottom meditera-fitur">      
+                    <div class="col-50 xsmall-50 small-50 medium-33 large-33 xlarge-33 meditera-fitur-item" data-item="kalibrasi">
+                      <div class="card">
+                        <div class="card-header no-padding" style="overflow:hidden;"><img src="logo.jpg" style="width:100%;aspect-ratio: 1 / 1;object-fit:cover;"></div>
+                        <div class="card-content card-content-padding">
+                          <div style="font-weight:bold;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">KALIBRASI</div>
+                          <div></div>
+                        </div>
+                        <div class="card-footer display-none">                 
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-50 xsmall-50 small-50 medium-33 large-33 xlarge-33 meditera-fitur-item" data-item="status">
+                      <div class="card">
+                        <div class="card-header no-padding" style="overflow:hidden;"><img src="logo.jpg" style="width:100%;aspect-ratio: 1 / 1;object-fit:cover;"></div>
+                        <div class="card-content card-content-padding">
+                          <div style="font-weight:bold;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">STATUS</div>
+                          <div></div>
+                        </div>
+                        <div class="card-footer display-none">                 
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-50 xsmall-50 small-50 medium-33 large-33 xlarge-33 meditera-fitur-item" data-item="kondisi">
+                      <div class="card">
+                        <div class="card-header no-padding" style="overflow:hidden;"><img src="logo.jpg" style="width:100%;aspect-ratio: 1 / 1;object-fit:cover;"></div>
+                        <div class="card-content card-content-padding">
+                          <div style="font-weight:bold;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">KONDISI</div>
+                          <div></div>
+                        </div>
+                        <div class="card-footer display-none">                 
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-50 xsmall-50 small-50 medium-33 large-33 xlarge-33 meditera-fitur-item" data-item="record">
+                      <div class="card">
+                        <div class="card-header no-padding" style="overflow:hidden;"><img src="logo.jpg" style="width:100%;aspect-ratio: 1 / 1;object-fit:cover;"></div>
+                        <div class="card-content card-content-padding">
+                          <div style="font-weight:bold;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">RECORD</div>
+                          <div></div>
+                        </div>
+                        <div class="card-footer display-none">                 
+                        </div>
+                      </div>
+                    </div>
+              </div>
+
+        </div>
+      </div>     
+
+          
+<!--start overlay------------------------------------------------------------------------------->          
+<div id="overlay-welcome" style="background: rgba(0, 0, 0, 0.8);position: fixed;z-index: 10000;align-items: center;justify-content: center;display: none;flex-direction:column;bottom: 0;left: 0;right: 0;top: 0;    background-image: url();background-size: cover;background-position: center top;">
+  <div style="background:#fff;display: flex;flex-direction:column;margin: auto;align-items: center;justify-content: center;padding:20px 20px;">
+    <img src="logo.jpg" style="width:200px;height:300px;object-fit: contain;background-image:none;">
+    <p style="font-size:16px;font-weight:bold;text-align:center;width:300px;margin-top:15px;margin-bottom:2px;">Meditera</p>
+  </div>
+  <div><p><a href="#" class="meditera-install display-none" target="_blank">Install meditera App</a><a href="#" class="meditera-bukaapp display-none" target="_blank">Buka meditera App</a></p></div>
+</div>
+<!--end overlay------------------------------------------------------------------------------->
+
+
+
+
+
+
+
+<!-- //////DONT EDIT////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <script>
+      var dompurifyurl = 'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.0/purify.min.js';
+      if (window.trustedTypes && trustedTypes.createPolicy) { 
+        const trustURLPolicy = trustedTypes.createPolicy('mediteradompurify', {
+          createScriptURL: string => string,
+        });
+        dompurifyurl = trustURLPolicy.createScriptURL(dompurifyurl);
+      }
+      
+      var s = document.createElement('script');
+      s.src = dompurifyurl;
+      s.integrity = 'sha512-Ijc86Y/rPOFCr+CJLd0QQlEaCC9ztVJFvPzK0DMrHCJ8biDkyQoo6Ll/OmqMEOaDJ2nCgsV89402SzXnocKzZg==';
+      s.crossOrigin = 'anonymous';
+      s.referrerpolicy = 'no-referrer';
+      s.async = false;
+      s.onload = function() {
+          fscriptloader();
+      };
+      document.head.appendChild(s);
+
+      function fscriptloader()
+      {
+            var timestamp = Date.now();
+            
+            DOMPurify.addHook('uponSanitizeElement', (node, data) => {
+              if (data.tagName === 'iframe') {
+                const src = node.getAttribute('src') || ''
+                if ((!src.startsWith('https://drive.google.com/file/d/'))&&(!src.startsWith('https://mediteraapp.netlify.app/'))) {
+                  console.log('unsafe iframe trigger');
+                  return node.parentNode?.removeChild(node)
+                }
+                else
+                {
+                  console.log('safe iframe trigger');
+                }
+              }
+            });
+            
+            function fwhitelistscript(string)
+            {
+              let url = [
+                'sw.js',
+                'app.js?t='+timestamp,
+                'https://unpkg.com/framework7@7.1.2/framework7-bundle.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.7/html5-qrcode.min.js',
+              ]
+              if (url.includes(string))
+              {
+                return string;
+              }
+              else
+              {
+                let hosts = [
+                  'https://mediteraapp.netlify.app',
+                ]
+                let valid = false;
+                hosts.forEach((host, index) => {
+                    if (string.startsWith(host))
+                    {
+                      valid = true;
+                    }
+                });
+                if (valid) return string;
+              }
+            }
+            
+            if (window.trustedTypes && trustedTypes.createPolicy) { 
+              trustedTypes.createPolicy('default', {
+                //createHTML: string => string, // warning: this is unsafe!          
+                createHTML: (string, sink) => DOMPurify.sanitize(string, {ADD_TAGS: ['iframe'],RETURN_TRUSTED_TYPE: true}),
+                //createScriptURL: string => string, // warning: this is unsafe!
+                createScriptURL: string => fwhitelistscript(string),
+              });
+            }
+            
+            var scripts = [ 
+                {url:'https://unpkg.com/framework7@7.1.2/framework7-bundle.min.js',sri:'sha512-Mq+GqgAuasB8N02H+5IP4XpGDKJekjBwEHg/uBvbBfHvGH/H/mrc3w0L+8bWk2lGsiUveZqRRrVfMzEQT9k1qw=='},
+                {url:'app.js?t='+timestamp,sri:''},
+                {url:'https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.7/html5-qrcode.min.js',sri:'sha512-dH3HFLqbLJ4o/3CFGVkn1lrppE300cfrUiD2vzggDAtJKiCClLKjJEa7wBcx7Czu04Xzgf3jMRvSwjVTYtzxEA=='}
+              ];
+            scripts.forEach(function(scriptUrl) {
+              var s = document.createElement('script');
+              s.src = scriptUrl.url;
+              s.async = false;
+              if (scriptUrl.sri !== '')
+              {
+                  s.integrity = scriptUrl.sri;
+                  s.crossOrigin = 'anonymous';
+                  s.referrerpolicy = 'no-referrer';
+              }
+              document.head.appendChild(s);
+            });
+      }
+  </script>
+<!-- //////DONT EDIT////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// --> 
+    </div>
+  </div>
+</body>
+</html>
