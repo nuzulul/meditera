@@ -1272,38 +1272,49 @@ function fmediterafitur()
   $$('.meditera-fitur-item').on('click', function (e) {
     let data = $$(this).attr('data-item');
     console.log(data);
+    window.mediterafiturdata = data;
     fopenscanner(data);
   });
 }
 
-function fopenscanner(data)
+function fopenscanner()
 {
-  //var src=data.src;
-  var src=data;
   const para = document.createElement("div");
-  para.innerHTML = '<div style="background: rgba(0, 0, 0, 0.8);position: fixed;z-index: 1000000000000000;align-items: center;justify-content: center;display: flex;bottom: 0;left: 0;right: 0;top: 0;"><div id="reader" src="" style="border-radius: 1em;display: block;margin: auto;height: 90vh;width: 90vw;object-fit: contain;background-image:none;"></div></div>';
+  para.classList.add('meditera-scanner');
+  para.innerHTML = '<div style="background: rgba(0, 0, 0, 0.8);position: fixed;z-index: 1000000000000000;align-items: center;justify-content: center;display: flex;bottom: 0;left: 0;right: 0;top: 0;"><div id="reader" src="" style="display: block;margin: auto;height: 90vh;width: 90vw;object-fit: contain;background-image:none;"></div></div>';
   
   para.addEventListener("click",()=>{
-    //para.remove(); 
+    para.remove(); 
   })
 
   document.body.appendChild(para);
 
-  let html5QrcodeScanner = new Html5QrcodeScanner(
-    "reader",
-    { fps: 10, qrbox: {width: 250, height: 250} },
-    /* verbose= */ false);
-  html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+  window.html5QrCode = new Html5Qrcode("reader");
+  const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+  html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 }
 
-function onScanSuccess(decodedText, decodedResult) {
+function qrCodeSuccessCallback(decodedText, decodedResult) {
   // handle the scanned code as you like, for example:
   console.log(`Code matched = ${decodedText}`, decodedResult);
+  html5QrCode.stop().then((ignore) => {
+    // QR Code scanning is stopped.
+  }).catch((err) => {
+    // Stop failed, handle it.
+  });
+  $$('.meditera-scanner').remove();
+  fbukafitur(mediterafiturdata,decodedText);
 }
 
 function onScanFailure(error) {
   // handle scan failure, usually better to ignore and keep scanning.
   // for example:
   console.warn(`Code scan error = ${error}`);
+}
+
+function fbukafitur(mediterafiturdata,decodedText)
+{
+  console.log(mediterafiturdata);
+  console.log(decodedText);
 }
 ///////fmediterafitur()/////////////////////////////////////////////////////////////////
