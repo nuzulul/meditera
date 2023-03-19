@@ -1363,6 +1363,10 @@ function fbukafitur(fitur,content)
   {
     fbukafiturkalibrasi(content);
   }
+  else if (fitur == 'status')
+  {
+    fbukafiturstatus(content);
+  }
 }
 
 function fbukafiturkalibrasi(content)
@@ -1437,6 +1441,133 @@ function fkalibrasisekarang(data)
     method: 'POST',
     cache: false,
     data : { password:'passwordtest', command: 'kalibrasisekarang', data: data}, 
+    success: function (data, status, xhr)
+      {
+        mypreloader.close();        
+        var status = JSON.parse(data).status;
+        var content = JSON.parse(data).data;
+        if (status == "success")
+        {
+          console.log('sukses');
+          console.log(content);
+          var toastBottom = app.toast.create({ text: 'Data berhasil disimpan', closeTimeout: 5000,position: 'center', });toastBottom.open();      
+        }
+        else if (status == "failed")
+        {
+          //console.log("failed");
+          app.dialog.alert(content,'Terjadi Kesalahan');
+        }
+        else
+        {
+          //console.log("failed");
+          app.dialog.alert(content,'Terjadi Kesalahan');
+        }
+      },
+    error: function (xhr, status, message)
+      {
+        //console.log(message);
+        mypreloader.close();
+        app.dialog.alert("Server sedang sibuk",'Terjadi Kesalahan');
+      },
+  });
+}
+
+function fbukafiturstatus(content)
+{
+  var data = content;
+  var dialog = app.dialog.create({
+    title: 'Kalibrasi',
+    content:''////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      +'<div style="width:100%;height:50vh;overflow:auto;">'
+      +'  <div style="display:flex;flex-direction:column;align-items:center;justify-content: center;">'
+      +'      <img class="imgdetail" src="" style="width:150px;height:150px;margin: 10px 10px;border-radius: 50%;object-fit: cover;">'
+      +'      <p style="font-weight:bold;"></p>'
+      +'      <div class="data-table"><table><tbody>'
+      //+'          <tr><td>Uid</td><td>'+safe(data[1])+'</td></tr>'
+      +'          <tr><td>Kode</td><td>'+safe(data[2])+'</td></tr>'
+      +'          <tr><td>Nama</td><td>'+safe(data[3])+'</td></tr>'
+      //+'          <tr><td>Kalibrasi</td><td>'+safe(data[4])+'</td></tr>'
+      //+'          <tr><td>Status</td><td>'+safe(data[5])+'</td></tr>'
+      //+'          <tr><td>Kondisi</td><td>'+safe(data[6])+'</td></tr>'
+      //+'          <tr><td>Photo</td><td><a href="#">'+safe(data[7])+'</a></td></tr>'
+      //+'          <tr><td>QR</td><td><a class="kodeqr" href="#">Kode QR</a></td></tr>'
+      +'      </tbody></table></div>'
+      +'  </div>'
+      +'</div>',//////////////////////////////////////////////////////////////////////////////////////////////////
+    closeByBackdropClick: false,
+    destroyOnClose: true,
+    verticalButtons: true,
+    on: {
+      opened: function () {
+        //console.log('Dialog opened')
+        let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
+        $$('.imgdetail').attr('src',src);
+        let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
+        $$('.kodeqr').on('click', function (e) {
+          myimage(srcqr);
+        });
+      }
+    },
+    buttons: [
+      {
+        text: 'PAKAI',
+        close:true,
+        color: 'red',
+        onClick: function(dialog, e)
+          {             
+            app.dialog.confirm('Mau pakai sekarang?', 'Konfirmasi', function ()
+            {
+              fupdatestatus(data[1],'pakai');              
+            })
+          }
+      },
+      {
+        text: 'PINJAM',
+        close:true,
+        color: 'red',
+        onClick: function(dialog, e)
+          {             
+            app.dialog.confirm('Mau pinjam sekarang?', 'Konfirmasi', function ()
+            {
+              fupdatestatus(data[1],'pinjam');              
+            })
+          }
+      },
+      {
+        text: 'KEMBALI',
+        close:true,
+        color: 'red',
+        onClick: function(dialog, e)
+          {             
+            app.dialog.confirm('Mau kembalikan sekarang?', 'Konfirmasi', function ()
+            {
+              fupdatestatus(data[1],'kembali');              
+            })
+          }
+      },
+      {
+        text: 'Batal',
+        close:true,
+        color: 'gray',
+        onClick: function(dialog, e)
+          {
+
+          }
+      },
+    ]
+  });
+  dialog.open();
+}
+
+function fupdatestatus(data,status)
+{
+  console.log('kalibrasi sekarang = '+data);
+  let mypreloader = app.dialog.preloader();
+  app.request({
+    url: apidataurl,
+    method: 'POST',
+    cache: false,
+    data : { password:'passwordtest', command: 'updatestatus', data: data, status: status}, 
     success: function (data, status, xhr)
       {
         mypreloader.close();        
