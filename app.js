@@ -1120,7 +1120,7 @@ function fkirimtambahperangkat(dialog,obj)
         else
         {
           //console.log("failed");
-          //app.dialog.alert(content,'Terjadi Kesalahan');
+          app.dialog.alert(content,'Terjadi Kesalahan');
         }
       },
     error: function (xhr, status, message)
@@ -1303,7 +1303,7 @@ function qrCodeSuccessCallback(decodedText, decodedResult) {
     // Stop failed, handle it.
   });
   $$('.meditera-scanner').remove();
-  fbukafitur(mediterafiturdata,decodedText);
+  fgetperangkat(mediterafiturdata,decodedText);
 }
 
 function onScanFailure(error) {
@@ -1312,9 +1312,159 @@ function onScanFailure(error) {
   console.warn(`Code scan error = ${error}`);
 }
 
-function fbukafitur(mediterafiturdata,decodedText)
+function fgetperangkat(mediterafiturdata,decodedText)
 {
-  console.log(mediterafiturdata);
-  console.log(decodedText);
+  let fitur = mediterafiturdata;
+  let params = getParams(decodedText);
+  let data = params.perangkat;
+  
+  if (params.perangkat == '') return;
+  
+  let mypreloader = app.dialog.preloader();
+  app.request({
+    url: apidataurl,
+    method: 'POST',
+    cache: false,
+    data : { password:'passwordtest', command: 'getperangkat', data: data}, 
+    success: function (data, status, xhr)
+      {
+        mypreloader.close();        
+        var status = JSON.parse(data).status;
+        var content = JSON.parse(data).data;
+        if (status == "success")
+        {
+          console.log('sukses');
+          console.log(content);
+          fbukafitur(fitur,content);      
+        }
+        else if (status == "failed")
+        {
+          //console.log("failed");
+          app.dialog.alert(content,'Terjadi Kesalahan');
+        }
+        else
+        {
+          //console.log("failed");
+          app.dialog.alert(content,'Terjadi Kesalahan');
+        }
+      },
+    error: function (xhr, status, message)
+      {
+        //console.log(message);
+        mypreloader.close();
+        app.dialog.alert("Server sedang sibuk",'Terjadi Kesalahan');
+      },
+  });
+}
+
+function fbukafitur(fitur,content)
+{
+  if (fitur == 'kalibrasi')
+  {
+    fbukafiturkalibrasi(content);
+  }
+}
+
+function fbukafiturkalibrasi(content)
+{
+  var data = content;
+  var dialog = app.dialog.create({
+    title: 'Kalibrasi',
+    content:''////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      +'<div style="width:100%;height:50vh;overflow:auto;">'
+      +'  <div style="display:flex;flex-direction:column;align-items:center;justify-content: center;">'
+      +'      <img class="imgdetail" src="" style="width:150px;height:150px;margin: 10px 10px;border-radius: 50%;object-fit: cover;">'
+      +'      <p style="font-weight:bold;"></p>'
+      +'      <div class="data-table"><table><tbody>'
+      //+'          <tr><td>Uid</td><td>'+safe(data[1])+'</td></tr>'
+      +'          <tr><td>Kode</td><td>'+safe(data[2])+'</td></tr>'
+      +'          <tr><td>Nama</td><td>'+safe(data[3])+'</td></tr>'
+      //+'          <tr><td>Kalibrasi</td><td>'+safe(data[4])+'</td></tr>'
+      //+'          <tr><td>Status</td><td>'+safe(data[5])+'</td></tr>'
+      //+'          <tr><td>Kondisi</td><td>'+safe(data[6])+'</td></tr>'
+      //+'          <tr><td>Photo</td><td><a href="#">'+safe(data[7])+'</a></td></tr>'
+      //+'          <tr><td>QR</td><td><a class="kodeqr" href="#">Kode QR</a></td></tr>'
+      +'      </tbody></table></div>'
+      +'  </div>'
+      +'</div>',//////////////////////////////////////////////////////////////////////////////////////////////////
+    closeByBackdropClick: false,
+    destroyOnClose: true,
+    verticalButtons: true,
+    on: {
+      opened: function () {
+        //console.log('Dialog opened')
+        let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
+        $$('.imgdetail').attr('src',src);
+        let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
+        $$('.kodeqr').on('click', function (e) {
+          myimage(srcqr);
+        });
+      }
+    },
+    buttons: [
+      {
+        text: 'kalibrasi sekarang',
+        close:true,
+        color: 'red',
+        onClick: function(dialog, e)
+          {             
+            app.dialog.confirm('Klaibrasi sekarang?', 'Konfirmasi', function ()
+            {
+              fkalibrasisekarang(data[1]);              
+            })
+          }
+      },
+      {
+        text: 'Batal',
+        close:true,
+        color: 'gray',
+        onClick: function(dialog, e)
+          {
+
+          }
+      },
+    ]
+  });
+  dialog.open();
+}
+
+function fkalibrasisekarang(data)
+{
+  console.log('kalibrasi sekarang = '+data);
+  let mypreloader = app.dialog.preloader();
+  app.request({
+    url: apidataurl,
+    method: 'POST',
+    cache: false,
+    data : { password:'passwordtest', command: 'kalibrasisekarang', data: data}, 
+    success: function (data, status, xhr)
+      {
+        mypreloader.close();        
+        var status = JSON.parse(data).status;
+        var content = JSON.parse(data).data;
+        if (status == "success")
+        {
+          console.log('sukses');
+          console.log(content);
+          var toastBottom = app.toast.create({ text: 'Data berhasil disimpan', closeTimeout: 5000,position: 'center', });toastBottom.open();      
+        }
+        else if (status == "failed")
+        {
+          //console.log("failed");
+          app.dialog.alert(content,'Terjadi Kesalahan');
+        }
+        else
+        {
+          //console.log("failed");
+          app.dialog.alert(content,'Terjadi Kesalahan');
+        }
+      },
+    error: function (xhr, status, message)
+      {
+        //console.log(message);
+        mypreloader.close();
+        app.dialog.alert("Server sedang sibuk",'Terjadi Kesalahan');
+      },
+  });
 }
 ///////fmediterafitur()/////////////////////////////////////////////////////////////////
