@@ -430,7 +430,7 @@ function finstallload()
   console.log('isStandalone = '+isStandalone());
   if (!isStandalone())
   {
-    $$('#overlay-welcome').css('display','flex');
+    //$$('#overlay-welcome').css('display','flex');
   }
 }
 
@@ -1058,10 +1058,10 @@ function ftambahperangkat()
           mediterauploadphoto.onchange = evt => {
             const [file] = mediterauploadphoto.files
             if (file) {
-              if (file.size > 524288)
+              if (file.size > 5242880)
               {
                 //app.dialog.alert('File tidak boleh lebih dari 500 KB','Terjadi Kesalahan');
-                var toastBottom = app.toast.create({ text: 'File tidak boleh lebih dari 500 KB', closeTimeout: 5000,position: 'center', });toastBottom.open();
+                var toastBottom = app.toast.create({ text: 'File tidak boleh lebih dari 5 MB', closeTimeout: 5000,position: 'center', });toastBottom.open();
                 mediterauploadphoto.value = '';
                 mediterauploadphotopreview.src = 'photo.svg'
               }
