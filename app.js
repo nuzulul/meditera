@@ -1326,9 +1326,10 @@ function fopenscanner()
   para.classList.add('meditera-scanner');
   para.innerHTML = '<div style="background: rgba(0, 0, 0, 0.8);position: fixed;z-index: 1000000000000000;align-items: center;justify-content: center;display: flex;bottom: 0;left: 0;right: 0;top: 0;"><div id="reader" src="" style="display: block;margin: auto;height: 300px;width: 300px;background-image:none;"></div></div>';
   
-  para.addEventListener("click",()=>{
-    para.remove();
+  para.addEventListener("click",()=>{    
     fstopscanner(); 
+    //para.remove();
+    setTimeout(function(){ para.remove(); }, 1000);
   })
 
   document.body.appendChild(para);
