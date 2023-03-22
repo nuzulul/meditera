@@ -1309,6 +1309,7 @@ function updateOnlineStatus(event) {
 ///////fmediterafitur()/////////////////////////////////////////////////////////////////////
 function fmediterafitur()
 {
+  $$('.meditera-fitur-item').off('click');
   $$('.meditera-fitur-item').on('click', function (e) {
     let data = $$(this).attr('data-item');
     console.log(data);
