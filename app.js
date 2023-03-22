@@ -905,6 +905,7 @@ return data;
 ///////fpageadmin();///////////////////////////////////////////
 function fpageadmin()
 {
+  window.mediteraadmindata = null
   if (typeof mediteraadmindata === 'undefined' || mediteraadmindata === null)
   {
       let mypreloader = app.dialog.preloader();
