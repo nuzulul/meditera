@@ -1329,7 +1329,7 @@ function fopenscanner()
   document.body.appendChild(para);
 
   window.html5QrCode = new Html5Qrcode("reader");
-  const config = { fps: 10, qrbox: { width: 250, height: 50 } };
+  const config = { fps: 10, qrbox: { width: 250, height: 100 } };
   html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 }
 
