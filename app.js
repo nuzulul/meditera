@@ -1344,6 +1344,7 @@ function fstopscanner()
     // QR Code scanning is stopped.
   }).catch((err) => {
     // Stop failed, handle it.
+    fpagereload();
   });
 }
 
