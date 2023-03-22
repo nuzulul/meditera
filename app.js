@@ -428,9 +428,9 @@ function finstallload()
       });
   tesinstall();
   console.log('isStandalone = '+isStandalone());
-  if (!isStandalone())
+  if (isStandalone())
   {
-    //$$('#overlay-welcome').css('display','flex');
+    $$('#overlay-welcome').css('display','none');
   }
 }
 
