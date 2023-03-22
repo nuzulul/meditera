@@ -88,6 +88,7 @@ routes: [
         fmediteravisits();
         console.log('beranda');
         fmediterafitur();
+        $$('.meditera-fitur .card').css("cursor","pointer");
       },
     },
   },
@@ -164,7 +165,10 @@ function fappready()
 {
   console.log('app ready');
   if (!isLocal) fcountvisits();
-  
+  if (isLocal)
+  {
+    $$('#overlay-welcome').css('display','none');
+  }
 }
 
 //////////on dom ready////////////////////////////////////////////////////
