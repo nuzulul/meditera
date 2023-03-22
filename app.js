@@ -1319,7 +1319,7 @@ function fopenscanner()
 {
   const para = document.createElement("div");
   para.classList.add('meditera-scanner');
-  para.innerHTML = '<div style="background: rgba(0, 0, 0, 0.8);position: fixed;z-index: 1000000000000000;align-items: center;justify-content: center;display: flex;bottom: 0;left: 0;right: 0;top: 0;"><div id="reader" src="" style="display: block;margin: auto;height: 250px;width: 250px;object-fit: contain;background-image:none;"></div></div>';
+  para.innerHTML = '<div style="background: rgba(0, 0, 0, 0.8);position: fixed;z-index: 1000000000000000;align-items: center;justify-content: center;display: flex;bottom: 0;left: 0;right: 0;top: 0;"><div id="reader" src="" style="display: block;margin: auto;height: 300px;width: 300px;background-image:none;"></div></div>';
   
   para.addEventListener("click",()=>{
     para.remove();
@@ -1329,7 +1329,7 @@ function fopenscanner()
   document.body.appendChild(para);
 
   window.html5QrCode = new Html5Qrcode("reader");
-  const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+  const config = { fps: 10, qrbox: { width: 250, height: 50 } };
   html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 }
 
