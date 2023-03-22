@@ -1548,12 +1548,18 @@ function fbukafiturstatus(content)
   {
       var terakhir = arr[arr.length-1].tanggal;
       var status = arr[arr.length-1].status;
+      var keterangan = arr[arr.length-1].keterangan;
       var date = new Intl.DateTimeFormat("id-ID", { hour12:false,dateStyle: "short" , timeStyle: "short",  timeZone: "Asia/Jakarta"}).format(new Date(terakhir));date = date.split(' ');date = date[0];
+      var datastatus = status+' | '+keterangan+' | '+date;
   }
   else
   {
+      var status = '';
+      var keterangan = '';
       var date = '-';
+      var datastatus = '-';
   }
+  
   var dialog = app.dialog.create({
     title: 'Status',
     content:''////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1565,7 +1571,7 @@ function fbukafiturstatus(content)
       //+'          <tr><td>Uid</td><td>'+safe(data[1])+'</td></tr>'
       +'          <tr><td>Kode</td><td>'+safe(data[2])+'</td></tr>'
       +'          <tr><td>Nama</td><td>'+safe(data[3])+'</td></tr>'
-      +'          <tr><td>Status</td><td>'+safe(status)+' tgl '+date+'</td></tr>'
+      +'          <tr><td>Status</td><td>'+safe(datastatus)+'</td></tr>'
       //+'          <tr><td>Kalibrasi</td><td>'+safe(data[4])+'</td></tr>'
       //+'          <tr><td>Status</td><td>'+safe(data[5])+'</td></tr>'
       //+'          <tr><td>Kondisi</td><td>'+safe(data[6])+'</td></tr>'
@@ -1597,7 +1603,7 @@ function fbukafiturstatus(content)
           {             
             app.dialog.confirm('Mau pakai sekarang?', 'Konfirmasi', function ()
             {
-              fupdatestatus(data[1],'pakai');              
+              fupdatestatus(data[1],'pakai','-');              
             })
           }
       },
@@ -1607,9 +1613,14 @@ function fbukafiturstatus(content)
         color: 'red',
         onClick: function(dialog, e)
           {             
-            app.dialog.confirm('Mau pinjam sekarang?', 'Konfirmasi', function ()
+            //app.dialog.confirm('Mau pinjam sekarang?', 'Konfirmasi', function ()
+            //{
+              //fupdatestatus(data[1],'pinjam');              
+            //})
+            
+            app.dialog.prompt('Peminjam', 'Mau pinjam?', function (keterangan)
             {
-              fupdatestatus(data[1],'pinjam');              
+              fupdatestatus(data[1],'pinjam',keterangan);
             })
           }
       },
@@ -1619,9 +1630,14 @@ function fbukafiturstatus(content)
         color: 'red',
         onClick: function(dialog, e)
           {             
-            app.dialog.confirm('Mau kembalikan sekarang?', 'Konfirmasi', function ()
+            //app.dialog.confirm('Mau kembalikan sekarang?', 'Konfirmasi', function ()
+            //{
+              //fupdatestatus(data[1],'kembali');              
+            //})
+
+            app.dialog.prompt('Peminjam', 'Mau kembalikan?', function (keterangan)
             {
-              fupdatestatus(data[1],'kembali');              
+              fupdatestatus(data[1],'kembali',keterangan);
             })
           }
       },
@@ -1639,7 +1655,7 @@ function fbukafiturstatus(content)
   dialog.open();
 }
 
-function fupdatestatus(data,status)
+function fupdatestatus(data,status,keterangan)
 {
   console.log('update sekarang = '+data);
   let mypreloader = app.dialog.preloader();
@@ -1647,7 +1663,7 @@ function fupdatestatus(data,status)
     url: apidataurl,
     method: 'POST',
     cache: false,
-    data : { password:'passwordtest', command: 'updatestatus', data: data, status: status}, 
+    data : { password:'passwordtest', command: 'updatestatus', data: data, status: status, keterangan:keterangan}, 
     success: function (data, status, xhr)
       {
         mypreloader.close();        
@@ -1814,6 +1830,7 @@ function fupdatekondisi(data,kondisi)
 /////////////////////////////////////////////////////////////////////////////////////////
 function fpagerecord()
 {
+  window.mediteraperangkatdata = null
   if (typeof mediteraperangkatdata === 'undefined' || mediteraperangkatdata === null)
   {
       let mypreloader = app.dialog.preloader();
@@ -1876,6 +1893,7 @@ function fpagerecordrun(content)
       let arr
       let terakhir
       let date
+      let keterangan;
 
       arr = JSON.parse(content[i][4]);
       if (arr.length > 0)
@@ -1895,14 +1913,15 @@ function fpagerecordrun(content)
       {
           terakhir = arr[arr.length-1].tanggal;
           status = arr[arr.length-1].status;
+          keterangan = arr[arr.length-1].keterangan;
           date = new Intl.DateTimeFormat("id-ID", { hour12:false,dateStyle: "short" , timeStyle: "short",  timeZone: "Asia/Jakarta"}).format(new Date(terakhir));date = date.split(' ');date = date[0];
+          status = status+' | '+keterangan+' | '+date;
       }
       else
       {
           date = '-';
           status = '-';
       }
-      //status = status+' tgl '+date
 
       arr = JSON.parse(content[i][6]);
       if (arr.length > 0)
