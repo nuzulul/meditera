@@ -195,6 +195,7 @@ function fcountvisits()
 
 function fmediteravisits()
 {
+  $$('.meditera-visits').off('click');
   $$('.meditera-visits').on('click', function () {
       app.dialog.alert(visits,'Kunjungan');
   });
