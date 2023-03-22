@@ -421,6 +421,7 @@ function finstallload()
           if (event.matches) {
              // From browser to standalone
              console.log('From browser to standalone');
+             $$('#overlay-welcome').css('display','none');
           } else {
              // From standalone to browser
              console.log('From standalone to browser');
