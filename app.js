@@ -1724,7 +1724,7 @@ function fbukafiturkondisi(content)
   else
   {
       var date = '-';
-      var datakondisi = '';
+      var datakondisi = '-';
   }
   var dialog = app.dialog.create({
     title: 'Kondisi',
