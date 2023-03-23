@@ -959,11 +959,11 @@ function fpageadmin()
 
 function fpageadminrun(content)
 {
-  var data = '<div class="data-table data-table-collapsible data-table-init"><table><thead><tr><th>Kode</th><th>Nama</th><th></th></tr></thead><tbody>';
+  var data = '<div class="data-table data-table-collapsible data-table-init"><table><thead><tr><th>No</th><th>Kode</th><th>Nama</th><th></th></tr></thead><tbody>';
   for (i=content.length-1;i>0;i--)
   {
       
-      data += '<tr class="meditera-admin-item-'+safe(content[i][1])+'"><td data-collapsible-title="Kode">'+safe(content[i][2])+'</td><td data-collapsible-title="Nama">'+safe(content[i][3])+'</td><td><a class="button button-fill meditera-adminaction" data-user="'+btoa(JSON.stringify(content[i]))+'">Detail</a></td></tr>';
+      data += '<tr class="meditera-admin-item-'+safe(content[i][1])+'"><td data-collapsible-title="No">'+i+'</td><td data-collapsible-title="Kode">'+safe(content[i][2])+'</td><td data-collapsible-title="Nama">'+safe(content[i][3])+'</td><td><a class="button button-fill meditera-adminaction" data-user="'+btoa(JSON.stringify(content[i]))+'" data-nomor="'+i+'">Detail</a></td></tr>';
   }
   data += '</tbody></table></div>';
   $$('.meditera-admin').html(data);
@@ -972,7 +972,8 @@ function fpageadminrun(content)
         
         //app.dialog.confirm('Pembuatan e-KTA memerlukan waktu 2-4 menit.', 'Pemberitahuan', function (){fbuatekta();})
         var base64 = this.attributes["data-user"].value;
-        fpageadmindetail(base64)
+        var nomor = this.attributes["data-nomor"].value;
+        fpageadmindetail(base64,nomor)
   });
   
   $$('.meditera-tambahperangkat').on('click', function (e) {
@@ -981,7 +982,7 @@ function fpageadminrun(content)
   });
 }
 
-function fpageadmindetail(base64)
+function fpageadmindetail(base64,nomor)
 {
   var data = atob(base64);data = JSON.parse(data);
   var dialog = app.dialog.create({
@@ -992,7 +993,7 @@ function fpageadmindetail(base64)
       +'      <img class="imgdetail" src="" style="width:150px;height:150px;margin: 10px 10px;border-radius: 50%;object-fit: cover;">'
       +'      <p style="font-weight:bold;"></p>'
       +'      <div class="data-table"><table><tbody>'
-      +'          <tr><td>Uid</td><td>'+safe(data[1])+'</td></tr>'
+      +'          <tr><td>No</td><td>'+safe(nomor)+'</td></tr>'
       +'          <tr><td>Kode</td><td>'+safe(data[2])+'</td></tr>'
       +'          <tr><td>Nama</td><td>'+safe(data[3])+'</td></tr>'
       //+'          <tr><td>Kalibrasi</td><td>'+safe(data[4])+'</td></tr>'
@@ -1011,6 +1012,9 @@ function fpageadmindetail(base64)
         //console.log('Dialog opened')
         let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
         $$('.imgdetail').attr('src',src);
+        $$('.imgdetail').on('click', function (e) {
+          myimage(src);
+        });
         let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
         $$('.kodeqr').on('click', function (e) {
           myimage(srcqr);
@@ -1472,6 +1476,9 @@ function fbukafiturkalibrasi(content)
         //console.log('Dialog opened')
         let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
         $$('.imgdetail').attr('src',src);
+        $$('.imgdetail').on('click', function (e) {
+          myimage(src);
+        });
         let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
         $$('.kodeqr').on('click', function (e) {
           myimage(srcqr);
@@ -1593,6 +1600,9 @@ function fbukafiturstatus(content)
         //console.log('Dialog opened')
         let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
         $$('.imgdetail').attr('src',src);
+        $$('.imgdetail').on('click', function (e) {
+          myimage(src);
+        });
         let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
         $$('.kodeqr').on('click', function (e) {
           myimage(srcqr);
@@ -1742,6 +1752,9 @@ function fbukafiturkondisi(content)
         //console.log('Dialog opened')
         let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
         $$('.imgdetail').attr('src',src);
+        $$('.imgdetail').on('click', function (e) {
+          myimage(src);
+        });
         let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
         $$('.kodeqr').on('click', function (e) {
           myimage(srcqr);
@@ -1942,7 +1955,7 @@ function fpagerecordrun(content)
       }
       //kondisi = kondisi+' tgl '+date
 
-      data += '<tr class="meditera-record-item-'+safe(content[i][1])+'"><td data-collapsible-title="No">'+nomor+'</td><td data-collapsible-title="Kode">'+safe(content[i][2])+'</td><td data-collapsible-title="Nama">'+safe(content[i][3])+'</td><td data-collapsible-title="Kalibrasi">'+kalibrasi+'</td><td data-collapsible-title="Status">'+status+'</td><td data-collapsible-title="Kondisi">'+kondisi+'</td><td><a class="button button-fill meditera-recordaction display-none" data-user="'+btoa(JSON.stringify(content[i]))+'">Detail</a></td></tr>';
+      data += '<tr class="meditera-record-item-'+safe(content[i][1])+'"><td data-collapsible-title="No">'+i+'</td><td data-collapsible-title="Kode">'+safe(content[i][2])+'</td><td data-collapsible-title="Nama">'+safe(content[i][3])+'</td><td data-collapsible-title="Kalibrasi">'+kalibrasi+'</td><td data-collapsible-title="Status">'+status+'</td><td data-collapsible-title="Kondisi">'+kondisi+'</td><td><a class="button button-fill meditera-recordaction display-none" data-user="'+btoa(JSON.stringify(content[i]))+'">Detail</a></td></tr>';
   }
   data += '</tbody></table></div>';
   $$('.meditera-record').html(data);
