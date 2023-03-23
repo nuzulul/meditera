@@ -1719,10 +1719,12 @@ function fbukafiturkondisi(content)
       var terakhir = arr[arr.length-1].tanggal;
       var kondisi = arr[arr.length-1].kondisi;
       var date = new Intl.DateTimeFormat("id-ID", { hour12:false,dateStyle: "short" , timeStyle: "short",  timeZone: "Asia/Jakarta"}).format(new Date(terakhir));date = date.split(' ');date = date[0];
+      var datakondisi = kondisi+' | '+date;
   }
   else
   {
       var date = '-';
+      var datakondisi = '';
   }
   var dialog = app.dialog.create({
     title: 'Kondisi',
@@ -1735,7 +1737,7 @@ function fbukafiturkondisi(content)
       //+'          <tr><td>Uid</td><td>'+safe(data[1])+'</td></tr>'
       +'          <tr><td>Kode</td><td>'+safe(data[2])+'</td></tr>'
       +'          <tr><td>Nama</td><td>'+safe(data[3])+'</td></tr>'
-      +'          <tr><td>Kondisi</td><td>'+safe(kondisi)+' tgl '+date+'</td></tr>'
+      +'          <tr><td>Kondisi</td><td>'+safe(datakondisi)+'</td></tr>'
       //+'          <tr><td>Kalibrasi</td><td>'+safe(data[4])+'</td></tr>'
       //+'          <tr><td>Status</td><td>'+safe(data[5])+'</td></tr>'
       //+'          <tr><td>Kondisi</td><td>'+safe(data[6])+'</td></tr>'
