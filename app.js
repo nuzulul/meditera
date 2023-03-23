@@ -1023,6 +1023,18 @@ function fpageadmindetail(base64,nomor)
     },
     buttons: [
       {
+        text: 'Download QR',
+        close:true,
+        color: 'red',
+        onClick: function(dialog, e)
+          {
+              let src = data[8];
+              let nama = 'perangkat'+nomor+'.jpg';
+              //fdownloadfile(src,nama);
+              fdownloadfile('https://cors.bsmijatim.workers.dev/?https://lh3.googleusercontent.com/d/'+src,nama);
+          }
+      },
+      {
         text: 'Tutup',
         close:true,
         color: 'gray',
