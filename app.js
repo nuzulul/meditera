@@ -1611,12 +1611,12 @@ function fbukafiturstatus(content)
     on: {
       opened: function () {
         //console.log('Dialog opened')
-        let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
+        let src = 'https://lh3.googleusercontent.com/d/'+safe(data[7]);
         $$('.imgdetail').attr('src',src);
         $$('.imgdetail').on('click', function (e) {
           myimage(src);
         });
-        let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
+        let srcqr = 'https://lh3.googleusercontent.com/d/'+safe(data[8]);
         $$('.kodeqr').on('click', function (e) {
           myimage(srcqr);
         });
@@ -1765,12 +1765,12 @@ function fbukafiturkondisi(content)
     on: {
       opened: function () {
         //console.log('Dialog opened')
-        let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
+        let src = 'https://lh3.googleusercontent.com/d/'+safe(data[7]);
         $$('.imgdetail').attr('src',src);
         $$('.imgdetail').on('click', function (e) {
           myimage(src);
         });
-        let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
+        let srcqr = 'https://lh3.googleusercontent.com/d/'+safe(data[8]);
         $$('.kodeqr').on('click', function (e) {
           myimage(srcqr);
         });
@@ -2011,9 +2011,9 @@ function fpagerecorddetail(base64)
     on: {
       opened: function () {
         //console.log('Dialog opened')
-        let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
+        let src = 'https://lh3.googleusercontent.com/d/'+safe(data[7]);
         $$('.imgdetail').attr('src',src);
-        let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
+        let srcqr = 'https://lh3.googleusercontent.com/d/'+safe(data[8]);
         $$('.kodeqr').on('click', function (e) {
           myimage(srcqr);
         });
