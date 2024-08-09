@@ -1010,12 +1010,12 @@ function fpageadmindetail(base64,nomor)
     on: {
       opened: function () {
         //console.log('Dialog opened')
-        let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
+        let src = 'https://lh3.googleusercontent.com/d/'+safe(data[7]);
         $$('.imgdetail').attr('src',src);
         $$('.imgdetail').on('click', function (e) {
           myimage(src);
         });
-        let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
+        let srcqr = 'https://lh3.googleusercontent.com/d/'+safe(data[8]);
         $$('.kodeqr').on('click', function (e) {
           myimage(srcqr);
         });
@@ -1166,7 +1166,8 @@ function fkirimtambahperangkat(dialog,obj)
           //app.dialog.alert("Permintaan verifikasi telah terkirim. Proses verifikasi bisa membutuhkan beberapa hari. Terima kasih.",'Permintaan Verifikasi');
           mediteraadmindata = null
           fpageadmin(); 
-          let srcqr = "https://drive.google.com/uc?export=view&id="+content;
+		  let id = content
+          let srcqr = 'https://lh3.googleusercontent.com/d/'+id;
           myimage(srcqr);       
         }
         else if (status == "failed")
@@ -1486,12 +1487,12 @@ function fbukafiturkalibrasi(content)
     on: {
       opened: function () {
         //console.log('Dialog opened')
-        let src = "https://drive.google.com/uc?export=view&id="+safe(data[7]);
+        let src = 'https://lh3.googleusercontent.com/d/'+safe(data[7]);
         $$('.imgdetail').attr('src',src);
         $$('.imgdetail').on('click', function (e) {
           myimage(src);
         });
-        let srcqr = "https://drive.google.com/uc?export=view&id="+safe(data[8]);
+        let srcqr = 'https://lh3.googleusercontent.com/d/'+safe(data[8]);
         $$('.kodeqr').on('click', function (e) {
           myimage(srcqr);
         });
