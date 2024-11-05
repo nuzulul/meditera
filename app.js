@@ -2034,3 +2034,20 @@ function fpagerecorddetail(base64)
   dialog.open();
 }
 ////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////login//////////////////////////////////////////////////////////////////////////
+$$("#submitpassword").on("click",async ()=>{
+	const pass = $$("#password").val()
+	if(pass === '')return
+	const buf = await crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(pass));
+	var hash = Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+	const key = 'b88a5b1259327685f0362c52722eac5c836e8b1cb121edd396c1cf725835ad73'
+	if(hash == key){
+		$$("#overlay-password").hide()
+	}else{
+		var toastBottom = app.toast.create({ text: 'Password salah', closeTimeout: 3000,position: 'center', });toastBottom.open();
+		$$("#password").val("")
+	}
+})
+//////////////login//////////////////////////////////////////////////////////////////////////

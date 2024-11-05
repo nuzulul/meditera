@@ -1,7 +1,7 @@
 {
   "id": "Meditera",
   "background_color": "#ffffff",
-  "description": "Meditera Tracker",
+  "description": "Medical Device Tracer and Condition Recorder Application",
   "dir": "ltr",
   "display": "standalone",
   "name": "Meditera",
